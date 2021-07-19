@@ -21,6 +21,17 @@ public class Video {
 	@NotEmpty @NotNull
 	private String url;
 
+	public Video() {
+		super();
+	}
+
+	public Video(@NotEmpty @NotNull String titulo, @NotEmpty @NotNull String descricao, @NotEmpty @NotNull String url) {
+		super();
+		this.titulo = titulo;
+		this.descricao = descricao;
+		this.url = url;
+	}
+
 	public Long getId() {
 		return id;
 	}
