@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity.BodyBuilder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,7 @@ import br.com.jesus.jonathan.backendalurachallange.repository.VideoRepository;
 import br.com.jesus.jonathan.backendalurachallange.request.VideoRequest;
 import br.com.jesus.jonathan.backendalurachallange.response.VideoResponse;
 
+@CrossOrigin(origins = "http://localhost")
 @RestController
 @RequestMapping(value = "/videos")
 public class VideoController {
