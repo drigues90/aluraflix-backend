@@ -31,8 +31,8 @@ public class VideoController {
 	private VideoRepository videoRepository;
 	
 	@GetMapping
-	public List<Video> listar() {
-		return videoRepository.findAll();
+	public List<VideoResponse> listar() {
+		return VideoResponse.converter(videoRepository.findAll());
 	}
 	
 	@GetMapping(path = "/{id}")

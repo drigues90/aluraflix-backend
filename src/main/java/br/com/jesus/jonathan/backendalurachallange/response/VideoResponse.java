@@ -1,5 +1,8 @@
 package br.com.jesus.jonathan.backendalurachallange.response;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import br.com.jesus.jonathan.backendalurachallange.model.Video;
 
 public class VideoResponse {
@@ -36,6 +39,10 @@ public class VideoResponse {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public static List<VideoResponse> converter(List<Video> videos) {
+		return videos.stream().map(VideoResponse::new).collect(Collectors.toList());
 	}
 
 }
