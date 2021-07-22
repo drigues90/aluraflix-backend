@@ -43,6 +43,11 @@ public class VideoControllerTest {
 	}
 	
 	@Test
+	public void deveRetornar200ConsultarVideoPorId() throws Exception {
+		mockMvc.perform(get("/videos/{id}",1)).andExpect(status().isOk());
+	}
+	
+	@Test
 	public void deveRetornar201AoCriarNovoVideo() throws JsonProcessingException, Exception {
 		mockMvc.perform(post(uri)
 				.contentType(MediaType.APPLICATION_JSON)
