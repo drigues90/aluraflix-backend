@@ -1,7 +1,9 @@
 package br.com.jesus.jonathan.backendalurachallange.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.net.URI;
@@ -53,4 +55,17 @@ public class VideoControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new ObjectMapper().writeValueAsString(new VideoRequest("Primeiro Video","Meu primeiro video","yabfc")))).andExpect(status().isCreated());
 	}
+
+	@Test
+	public void deveRetornar200AoatualizarVideo() throws JsonProcessingException, Exception {
+		mockMvc.perform(put("/videos/{id}",1).contentType(MediaType.APPLICATION_JSON)
+				.content(new ObjectMapper().writeValueAsString(new VideoRequest("atualiacao Video","atualizado video","yabfc"))))
+				.andExpect(status().isOk());
+	}
+	
+	@Test
+	public void deveRetornar200aoExcluirVideo() throws Exception {
+		mockMvc.perform(delete("/videos/{id}",1)).andExpect(status().isOk());
+	}
+	
 }

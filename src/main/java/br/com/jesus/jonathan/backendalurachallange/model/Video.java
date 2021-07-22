@@ -5,8 +5,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import br.com.jesus.jonathan.backendalurachallange.request.VideoRequest;
 
 @Entity
 @Table(name = "tb_video")
@@ -62,6 +65,12 @@ public class Video {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public void atualizar(@Valid VideoRequest request) {
+		this.titulo = request.getTitulo();
+		this.descricao = request.getDescricao();
+		this.url = request.getUrl();
 	}
 
 }
