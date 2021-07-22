@@ -28,14 +28,14 @@ import br.com.jesus.jonathan.backendalurachallange.request.VideoRequest;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class VideoControllerTest {
-	
+
 	private URI uri;
-	
+
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@Before
-	public void before () throws URISyntaxException {
+	public void before() throws URISyntaxException {
 		uri = new URI("/videos");
 	}
 
@@ -43,29 +43,36 @@ public class VideoControllerTest {
 	public void deveRetornar200AoListarVideos() throws Exception {
 		mockMvc.perform(get(uri)).andExpect(status().isOk());
 	}
-	
+
 	@Test
 	public void deveRetornar200ConsultarVideoPorId() throws Exception {
-		mockMvc.perform(get("/videos/{id}",1)).andExpect(status().isOk());
+		mockMvc.perform(get("/videos/{id}", 1)).andExpect(status().isOk());
 	}
-	
+
 	@Test
 	public void deveRetornar201AoCriarNovoVideo() throws JsonProcessingException, Exception {
-		mockMvc.perform(post(uri)
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(new ObjectMapper().writeValueAsString(new VideoRequest("Primeiro Video","Meu primeiro video","yabfc")))).andExpect(status().isCreated());
+		mockMvc.perform(post(uri).contentType(MediaType.APPLICATION_JSON)
+				.content(new ObjectMapper()
+						.writeValueAsString(new VideoRequest("Primeiro Video", "Meu primeiro video", "yabfc"))))
+				.andExpect(status().isCreated());
 	}
 
 	@Test
 	public void deveRetornar200AoatualizarVideo() throws JsonProcessingException, Exception {
-		mockMvc.perform(put("/videos/{id}",1).contentType(MediaType.APPLICATION_JSON)
-				.content(new ObjectMapper().writeValueAsString(new VideoRequest("atualiacao Video","atualizado video","yabfc"))))
+		mockMvc.perform(put("/videos/{id}", 1).contentType(MediaType.APPLICATION_JSON)
+				.content(new ObjectMapper()
+						.writeValueAsString(new VideoRequest("atualiacao Video", "atualizado video", "yabfc"))))
 				.andExpect(status().isOk());
 	}
-	
+
 	@Test
 	public void deveRetornar200aoExcluirVideo() throws Exception {
-		mockMvc.perform(delete("/videos/{id}",1)).andExpect(status().isOk());
+		mockMvc.perform(delete("/videos/{id}", 1)).andExpect(status().isOk());
 	}
-	
+
+	@Test
+	public void deveRetornar404AoBuscarVideoInexistente() throws Throwable {
+		mockMvc.perform(get("/videos/{id}", 999)).andExpect(status().isNotFound());
+	}
+
 }
