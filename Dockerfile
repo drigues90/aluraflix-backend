@@ -6,4 +6,4 @@ RUN mvn package -Dmaven.test.skip=true
 
 FROM  adoptopenjdk/openjdk11
 COPY --from=MAVEN_TOOL_CHAIN /tmp/target/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java","-Xmx512m","-Dserver.port=${PORT}","-jar","/app.jar"]
