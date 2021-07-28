@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -23,16 +25,18 @@ public class Video {
 	private String descricao;
 	@NotEmpty @NotNull
 	private String url;
+	@ManyToOne
+	private Categoria categoria;
 
 	public Video() {
 		super();
 	}
-
-	public Video(@NotEmpty @NotNull String titulo, @NotEmpty @NotNull String descricao, @NotEmpty @NotNull String url) {
-		super();
+	
+	public Video(@NotEmpty @NotNull String titulo, @NotEmpty @NotNull String descricao, @NotEmpty @NotNull String url, Categoria categoria) {
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.url = url;
+		this.categoria = categoria;
 	}
 
 	public Long getId() {
@@ -71,6 +75,11 @@ public class Video {
 		this.titulo = request.getTitulo();
 		this.descricao = request.getDescricao();
 		this.url = request.getUrl();
+		this.categoria = new Categoria(request.getCategoriaId());
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
 	}
 
 }

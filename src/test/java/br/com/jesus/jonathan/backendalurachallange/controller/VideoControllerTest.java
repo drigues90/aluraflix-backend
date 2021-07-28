@@ -53,7 +53,7 @@ public class VideoControllerTest {
 	public void deveRetornar201AoCriarNovoVideo() throws JsonProcessingException, Exception {
 		mockMvc.perform(post(uri).contentType(MediaType.APPLICATION_JSON)
 				.content(new ObjectMapper()
-						.writeValueAsString(new VideoRequest("Primeiro Video", "Meu primeiro video", "yabfc"))))
+						.writeValueAsString(new VideoRequest("Primeiro Video", "Meu primeiro video", "yabfc",null))))
 				.andExpect(status().isCreated());
 	}
 
@@ -61,7 +61,7 @@ public class VideoControllerTest {
 	public void deveRetornar200AoatualizarVideo() throws JsonProcessingException, Exception {
 		mockMvc.perform(put("/videos/{id}", 1).contentType(MediaType.APPLICATION_JSON)
 				.content(new ObjectMapper()
-						.writeValueAsString(new VideoRequest("atualiacao Video", "atualizado video", "yabfc"))))
+						.writeValueAsString(new VideoRequest("atualiacao Video", "atualizado video", "yabfc",null))))
 				.andExpect(status().isOk());
 	}
 

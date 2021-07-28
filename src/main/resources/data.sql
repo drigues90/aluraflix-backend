@@ -1,3 +1,6 @@
+insert into public.tb_categoria(titulo,cor)
+values ('LIVRE','grey');
+
 insert into public.tb_video (titulo, descricao, url)
 values 
 ('Microserviços','o que sao de onde vem e o que comem','https://www.youtube.com/watch?v=jSnLOoGjQ80'),

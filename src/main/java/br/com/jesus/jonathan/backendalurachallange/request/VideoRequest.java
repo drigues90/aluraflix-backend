@@ -1,8 +1,11 @@
 package br.com.jesus.jonathan.backendalurachallange.request;
 
+import java.util.Optional;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import br.com.jesus.jonathan.backendalurachallange.model.Categoria;
 import br.com.jesus.jonathan.backendalurachallange.model.Video;
 
 public class VideoRequest {
@@ -16,17 +19,18 @@ public class VideoRequest {
 	@NotEmpty
 	@NotNull
 	private String url;
+	private Long categoriaId;
 
 	public VideoRequest(@NotEmpty @NotNull String titulo, @NotEmpty @NotNull String descricao,
-			@NotEmpty @NotNull String url) {
-		super();
+			@NotEmpty @NotNull String url, Long categoriaId) {
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.url = url;
+		this.categoriaId = categoriaId;
 	}
 
 	public Video converter() {
-		return new Video(this.getTitulo(), this.getDescricao(), this.getUrl());
+		return new Video(this.getTitulo(), this.getDescricao(), this.getUrl(),new Categoria(this.categoriaId));
 	}
 
 	public String getTitulo() {
@@ -51,6 +55,14 @@ public class VideoRequest {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public Long getCategoriaId() {
+		return categoriaId;
+	}
+
+	public void setCategoriaId(Long categoriaId) {
+		this.categoriaId = categoriaId;
 	}
 
 }
