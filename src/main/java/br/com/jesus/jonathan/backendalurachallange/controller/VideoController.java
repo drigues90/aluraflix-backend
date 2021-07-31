@@ -43,8 +43,11 @@ public class VideoController {
 	private CategoriaRepository categoriaRepository;
 	
 	@GetMapping
-	public List<VideoResponse> listar() {
-		return VideoResponse.converter(videoRepository.findAll());
+	public List<VideoResponse> listar(String titulo) {
+		
+		return Optional.ofNullable(titulo).map(t -> {
+			return VideoResponse.converter(videoRepository.findByTitulo(titulo));
+		}).orElse(VideoResponse.converter(videoRepository.findAll()));
 	}
 
 	@PostMapping

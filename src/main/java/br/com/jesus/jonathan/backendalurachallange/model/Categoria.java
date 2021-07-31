@@ -8,8 +8,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import br.com.jesus.jonathan.backendalurachallange.request.CategoriaRequest;
 
 @Entity
 @Table(name = "tb_categoria")
@@ -58,6 +61,11 @@ public class Categoria {
 
 	public void setCor(String cor) {
 		this.cor = cor;
+	}
+
+	public void atualizar(@Valid CategoriaRequest request) {
+		this.titulo = request.getTitulo();
+		this.cor = request.getCor();
 	}
 
 }
