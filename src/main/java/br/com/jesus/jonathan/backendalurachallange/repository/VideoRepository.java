@@ -9,5 +9,6 @@ import br.com.jesus.jonathan.backendalurachallange.model.Video;
 public interface VideoRepository extends JpaRepository<Video, Long>{
 
 	List<Video> findByTitulo(String titulo);
+	List<Video> findByCategoriaId(Long id);
 
 }

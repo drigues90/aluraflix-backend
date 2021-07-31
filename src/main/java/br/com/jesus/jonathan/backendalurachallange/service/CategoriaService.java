@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.persistence.NoResultException;
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
@@ -49,6 +48,10 @@ public class CategoriaService {
 			c.atualizar(request);
 			return mapper.map(c, CategoriaResponse.class);
 		});
+	}
+
+	public void deletar(Long id) {
+		categoriaRepository.deleteById(id);
 	}
 
 }

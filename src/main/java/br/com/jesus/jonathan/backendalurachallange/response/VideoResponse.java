@@ -14,6 +14,9 @@ public class VideoResponse {
 	private String titulo;
 	private String descricao;
 	private String url;
+	
+	public VideoResponse() {
+	}
 
 	public VideoResponse(Video video) {
 		this.id = video.getId();
