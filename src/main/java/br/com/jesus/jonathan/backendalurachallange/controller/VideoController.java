@@ -4,10 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -27,9 +25,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.jesus.jonathan.backendalurachallange.model.Video;
 import br.com.jesus.jonathan.backendalurachallange.repository.CategoriaRepository;
-import br.com.jesus.jonathan.backendalurachallange.repository.VideoRepository;
 import br.com.jesus.jonathan.backendalurachallange.request.VideoRequest;
 import br.com.jesus.jonathan.backendalurachallange.response.VideoResponse;
+import br.com.jesus.jonathan.backendalurachallange.service.VideoService;
 
 @CrossOrigin(origins = "http://localhost")
 @RestController
@@ -37,26 +35,18 @@ import br.com.jesus.jonathan.backendalurachallange.response.VideoResponse;
 public class VideoController {
 	
 	@Autowired
-	private VideoRepository videoRepository;
-	
-	@Autowired
-	private CategoriaRepository categoriaRepository;
+	private VideoService service;
 	
 	@GetMapping
 	public List<VideoResponse> listar(String titulo) {
-		
-		return Optional.ofNullable(titulo).map(t -> {
-			return VideoResponse.converter(videoRepository.findByTitulo(titulo));
-		}).orElse(VideoResponse.converter(videoRepository.findAll()));
+		return service.listar(titulo);
 	}
 
 	@PostMapping
 	public ResponseEntity<VideoResponse> criarVideo(@RequestBody @Valid VideoRequest request, UriComponentsBuilder builder) {
 		
 		try {
-			Video video = request.converter();
-			videoRepository.save(video);
-			
+			Video video = service.salvar(request);
 			URI uri = builder.path("/videos/{id}").buildAndExpand(video.getId()).toUri();
 			return ResponseEntity.created(uri).body(new VideoResponse(video));
 			
@@ -66,36 +56,25 @@ public class VideoController {
 	}
 	
 	@GetMapping(path = "/{id}")
-	public ResponseEntity<VideoResponse> detalhar(@PathVariable Long id){
-		Optional<Video> video = videoRepository.findById(id);
-		if(video.isPresent())
-			return ResponseEntity.ok(new VideoResponse(video.get()));
-		else
-			return ResponseEntity.notFound().build();
+	public ResponseEntity<VideoResponse> detalhar(@PathVariable Long id) {
+		Optional<VideoResponse> video = service.detalhar(id);
+		return video.map(v -> ResponseEntity.ok(v)).orElse(ResponseEntity.notFound().build());
 	}
 	
-	@Transactional
 	@PutMapping(path = "/{id}")
 	public ResponseEntity<VideoResponse> atualizar(@PathVariable Long id, @RequestBody @Valid VideoRequest request) {
-		Optional<Video> video = videoRepository.findById(id);
-		if (video.isPresent()) {
-			Optional.ofNullable(request.getCategoriaId()).ifPresent(categoriaId -> {
-				categoriaRepository.findById(categoriaId).orElseThrow(
-						() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Categoria não cadastrada"));
-			});
-
-			video.get().atualizar(request);
-			videoRepository.save(video.get());
-			return ResponseEntity.ok(new VideoResponse(video.get()));
-		} else {
-			return ResponseEntity.notFound().build();
+		try {
+			Optional<VideoResponse> video = service.atualizar(request, id);
+			return video.map(v -> ResponseEntity.ok(v)).orElse(ResponseEntity.notFound().build());
+		}catch (DataIntegrityViolationException e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Categoria não cadastrada",e);
 		}
 	}
 	
 	@DeleteMapping(path = "/{id}")
 	public ResponseEntity<Object> deletar(@PathVariable Long id) {
 		try {
-			videoRepository.deleteById(id);
+			service.deletar(id);
 			return ResponseEntity.ok().build();
 		} catch (EmptyResultDataAccessException e) {
 			return ResponseEntity.notFound().build();
