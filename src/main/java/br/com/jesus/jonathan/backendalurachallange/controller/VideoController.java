@@ -31,7 +31,6 @@ import br.com.jesus.jonathan.backendalurachallange.service.VideoService;
 
 @RestController
 @RequestMapping(value = "/videos")
-@CrossOrigin(origins = "http://localhost:3000")
 public class VideoController {
 	
 	@Autowired

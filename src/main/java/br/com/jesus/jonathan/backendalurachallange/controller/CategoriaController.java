@@ -28,7 +28,6 @@ import br.com.jesus.jonathan.backendalurachallange.service.VideoService;
 
 @RestController
 @RequestMapping(value = "categorias")
-@CrossOrigin(origins = "http://localhost:3000")
 public class CategoriaController {
 
 	@Autowired
