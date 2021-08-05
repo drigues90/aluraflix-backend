@@ -1,10 +1,14 @@
 package br.com.jesus.jonathan.backendalurachallange.response;
 
+import java.util.List;
+
 public class CategoriaResponse {
 
 	private Long id;
 	private String titulo;
 	private String cor;
+
+	private List<VideoResponse> videos;
 
 	public void setId(Long id) {
 		this.id = id;
@@ -28,5 +32,13 @@ public class CategoriaResponse {
 
 	public String getCor() {
 		return cor;
+	}
+
+	public List<VideoResponse> getVideos() {
+		return videos;
+	}
+
+	public void setVideos(List<VideoResponse> videos) {
+		this.videos = videos;
 	}
 }

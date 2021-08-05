@@ -29,9 +29,9 @@ import br.com.jesus.jonathan.backendalurachallange.request.VideoRequest;
 import br.com.jesus.jonathan.backendalurachallange.response.VideoResponse;
 import br.com.jesus.jonathan.backendalurachallange.service.VideoService;
 
-@CrossOrigin(origins = "http://localhost")
 @RestController
 @RequestMapping(value = "/videos")
+@CrossOrigin(origins = "http://localhost:3000")
 public class VideoController {
 	
 	@Autowired
