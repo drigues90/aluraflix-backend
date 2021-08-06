@@ -1,8 +1,14 @@
 package br.com.jesus.jonathan.backendalurachallange.request;
 
+import javax.validation.constraints.NotBlank;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 public class LoginRequest {
 
+	@NotBlank
 	private String usuario;
+	@NotBlank
 	private String senha;
 
 	public String getUsuario() {
@@ -19,6 +25,10 @@ public class LoginRequest {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public UsernamePasswordAuthenticationToken converter() {
+		return new UsernamePasswordAuthenticationToken(usuario, senha);
 	}
 
 }

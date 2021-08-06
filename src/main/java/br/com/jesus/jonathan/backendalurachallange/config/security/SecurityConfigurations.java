@@ -1,6 +1,10 @@
 package br.com.jesus.jonathan.backendalurachallange.config.security;
 
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +17,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.jesus.jonathan.backendalurachallange.repository.UsuarioRepository;
 
@@ -44,10 +51,19 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 		.antMatchers(HttpMethod.GET, "/categorias").permitAll()
+		.antMatchers("/h2-console/**").permitAll()
 		.antMatchers(HttpMethod.POST,"/login").permitAll()
 		.anyRequest().authenticated().and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and().addFilterBefore(new AutenticacaoTokenFilter(tokenService,usuarioRepository), UsernamePasswordAuthenticationFilter.class);
+		.and().addFilterBefore(new AutenticacaoTokenFilter(tokenService,usuarioRepository), UsernamePasswordAuthenticationFilter.class)
+	    .exceptionHandling()
+	    .authenticationEntryPoint((request, response, e) -> 
+	    {
+	        response.setContentType("application/json;charset=UTF-8");
+	        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+	        response.getWriter().write(new ObjectMapper().valueToTree(Map.of("messagem","Não Autorizado")).toString());
+	    });
+		
 	}
 	
 	// configuracoes de arquivos estativos (css,js,html e etc)

@@ -5,15 +5,18 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
+@Table(name = "tb_usuario")
 public class Usuario implements UserDetails {
 
 	private static final long serialVersionUID = 7175553012276809801L;
@@ -24,7 +27,7 @@ public class Usuario implements UserDetails {
 	private String userName;
 	private String password;
 	
-	@ManyToMany
+	@ManyToMany(fetch =FetchType.EAGER)
 	private List<Permissao> permissoes = new ArrayList<>();
 
 	public Long getId() {
