@@ -1,4 +1,6 @@
-INSERT INTO tb_usuario(user_name,password) VALUES('admin','$2a$10$G3D6CJJEfqsoj5Px5zCi7uUjSPFe3RCFYAjZEYz3kDAxTrWsNn9Ri');
+INSERT INTO tb_usuario(user_name,password) 
+VALUES
+('admin@email.com','$2a$10$G3D6CJJEfqsoj5Px5zCi7uUjSPFe3RCFYAjZEYz3kDAxTrWsNn9Ri');
 
 insert into public.tb_categoria(titulo,cor)
 values ('Livre','grey'),

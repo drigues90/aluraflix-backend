@@ -1,8 +1,5 @@
 package br.com.jesus.jonathan.backendalurachallange.controller;
 
-import javax.validation.Valid;
-
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.jesus.jonathan.backendalurachallange.config.security.TokenService;
-import br.com.jesus.jonathan.backendalurachallange.request.LoginRequest;
+import br.com.jesus.jonathan.backendalurachallange.request.ReactRequest;
 import br.com.jesus.jonathan.backendalurachallange.response.TokenResponse;
 
 @RestController
-@RequestMapping("/login")
-public class LoginController {
+@RequestMapping(value = "/sessions")
+public class SessionController {
 	
 	@Autowired
 	private AuthenticationManager authManager;
@@ -29,7 +26,8 @@ public class LoginController {
 	private TokenService tokenService;
 	
 	@PostMapping
-	public ResponseEntity<TokenResponse> login(@RequestBody @Valid LoginRequest request) {
+	public ResponseEntity<TokenResponse> login(@RequestBody ReactRequest request) {
+		
 		UsernamePasswordAuthenticationToken dadosLogin = request.converter();
 		try {
 			Authentication authentication = authManager.authenticate(dadosLogin);
